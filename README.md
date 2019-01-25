@@ -24,7 +24,7 @@ npm run broker:start
 ```bash
 npm run deploy
 ```
-4. Start task workers. Both `reliable-worker` and `faulty-worker` show the fault:
+4. Start task workers:
 ```bash
 npm start
 ```
