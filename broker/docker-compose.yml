@@ -1,0 +1,43 @@
+version: '2'
+
+services:
+  db:
+    image: oscarfonts/h2
+    container_name: zeebe_db
+    ports:
+      - "1521:1521"
+      - "81:81"
+    networks:
+      - zeebe-network
+  zeebe:
+    container_name: zeebe_broker
+#    image: sitapati/zeebe-0.15 #camunda/zeebe:SNAPSHT # This is Camunda's daily build
+    image: camunda/zeebe:SNAPSHOT # This is Camunda's daily build
+    environment:
+      - ZEEBE_LOG_LEVEL=debug
+    ports:
+      - "26500:26500"
+    volumes:
+      - ./zeebe-simple-monitor-exporter.jar:/usr/local/zeebe/lib/zeebe-simple-monitor-exporter.jar
+      - ./zeebe.cfg.toml:/usr/local/zeebe/conf/zeebe.cfg.toml
+    networks:
+      - zeebe-network
+    depends_on:
+      - db
+  monitor:
+    container_name: zeebe_monitor
+    image: camunda/zeebe-simple-monitor:SNAPSHOT
+    environment:
+      - spring.datasource.url=jdbc:h2:tcp://db:1521/zeebe-monitor
+      - io.zeebe.monitor.connectionString=zeebe:26500
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+      - zeebe
+
+    networks:
+      - zeebe-network
+networks:
+ zeebe-network:
+   driver: bridge
