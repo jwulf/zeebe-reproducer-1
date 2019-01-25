@@ -8,7 +8,8 @@
     "broker:start": "cd broker && docker-compose up -d",
     "broker:restart": "cd broker && docker-compose down && docker-compose up -d",
     "start": "ts-node src/worker.ts",
-    "test": "ts-node src/start-job.ts"
+    "test": "ts-node src/start-job.ts",
+    "debug": "DEBUG=zeebe-node:* ts-node src/worker.ts"
   },
   "repository": {
     "type": "git",

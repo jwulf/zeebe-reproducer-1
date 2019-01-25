@@ -28,6 +28,9 @@ async function start() {
         if (fault) {
             faults++;
             worker.log(`Fault Count: ${faults}/${n}`);
+            // Uncomment the line below and start with `npm run debug` to inspect the payload passed to
+            // completeJob method in Task 1
+            // process.exit();
         }
         complete(payload);
         if (n % 100 === 0) {
