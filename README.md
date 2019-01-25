@@ -1,5 +1,15 @@
 # Minimal Reproducer
 
+## The issue
+
+In a simple workflow:
+
+![](img/workflow.png)
+
+Task 1 modifies the payload, then completes the job with it. Task 2 inspects the payload it gets to see if it has been modified.
+
+Task 2's assertion fails inconsistently. Most of the time the payload has been modified as expected, but many times it has not.
+
 1. Install dependencies:
 ```bash
 npm i
